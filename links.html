@@ -76,12 +76,18 @@
         </div>
     </nav>
 
-    <div class="container mt-4 pt-3">
+    <div class="container mt-4 pt-1">
+
+      <div class="text-secondary" id="my_name">Elmer Leonel Márquez Argueta</div>
 
         <hr>
-        <form class="d-flex gap-3">
-            <input class="form-control bg-white" type="text" placeholder="Titulo" autofocus required/>
-            <input class="form-control bg-white" type="text" placeholder="Enlace" required/>
+        <form class="d-flex gap-4">
+            <input class="form-control bg-white" type="text" name="title_of_link" id="title_of_link" placeholder="Titulo" autofocus required/>
+            <input class="form-control bg-white" type="text" name="link" id="link" placeholder="Enlace" required/>
+            <div class="d-flex align-items-center gap-2">
+               <div>Modo incognito:</div> 
+               <input type="checkbox" name="mode_incognito" id="mode_incognito">
+            </div>
             <button class="btn btn-primary" type="submit"><img src="./icons/save.svg" alt="guardar"></button>
         </form>
         <hr>
@@ -228,10 +234,11 @@
             Instagram
           </a>
         </div>
-        <h5 class="text-secondary text-center">@LeoMarqz - 2021</h5>
+        <h5 class="text-secondary text-center">@LeoMarqz - 2021 </h5>
       </div>
     </footer>
 
-    <script src="./js/index.js"></script>
+    <script src="./js/up.js"></script>
+    <script src="./js/index.js" type="module"></script>
 </body>
 </html>
