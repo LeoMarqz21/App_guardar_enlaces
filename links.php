@@ -1,3 +1,32 @@
+<?php 
+
+session_start();
+include('./server/connectionDB.php');
+
+$connection = new ConnectionDB();
+
+if($_GET){
+  if(isset($_GET['close'])){
+    session_destroy();
+    header("Location: ./index.php");
+  }
+}
+
+if($_POST){
+
+  if(isset($_POST['save'])){
+    $title = $_POST['title'];
+    $link = $_POST['link'];
+    $mode = isset($_POST['mode']);
+
+    echo "Titulo: " . $title . "   Enlace: " . $link . "   modo: " . $mode;
+  }
+
+  if(isset($_POST[''])){}
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -72,23 +101,31 @@
     <nav class="navbar  bg-white shadow p-3">
         <div class="container">
             <h1 class="d-flex gap-1 fw-bold"><img src="./icons/link.svg" alt="icono">SLink</h1>
-            <button class="btn btn-danger shadow-sm"><img src="./icons/close.svg" alt=""></button>
+            <form>
+              <button class="btn btn-danger shadow-sm" name="close"><img src="./icons/close.svg" alt=""></button>
+            </form>
         </div>
     </nav>
 
     <div class="container mt-4 pt-1">
 
-      <div class="text-secondary" id="my_name">Elmer Leonel Márquez Argueta</div>
+      <div class="text-secondary"> <?php
+        if(isset($_SESSION['user_id'])){
+          echo $connection->GetName($_SESSION['user_id']);
+        }else{
+          header("Location: ./index.php");
+        }
+      ?> </div>
 
         <hr>
-        <form class="d-flex gap-4">
-            <input class="form-control bg-white" type="text" name="title_of_link" id="title_of_link" placeholder="Titulo" autofocus required/>
-            <input class="form-control bg-white" type="text" name="link" id="link" placeholder="Enlace" required/>
+        <form class="d-flex gap-4" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <input class="form-control bg-white" type="text" name="title"  placeholder="Titulo" autofocus autocomplete="off" required/>
+            <input class="form-control bg-white" type="text" name="link" placeholder="Enlace" autocomplete="off" required/>
             <div class="d-flex align-items-center gap-2">
                <div>Modo incognito:</div> 
-               <input type="checkbox" name="mode_incognito" id="mode_incognito">
+               <input type="checkbox" name="mode" />
             </div>
-            <button class="btn btn-primary" type="submit"><img src="./icons/save.svg" alt="guardar"></button>
+            <button class="btn btn-primary" name="save" type="submit"><img src="./icons/save.svg" alt="guardar"></button>
         </form>
         <hr>
 
@@ -102,6 +139,7 @@
                 </tr>
               </thead>
               <tbody class="scrollspy-example">
+
                 <tr>
                   <th class="ps-3">1</th>
                   <td>Google</td>
@@ -120,96 +158,7 @@
                       <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
                   </td>
                 </tr>
-                <tr>
-                  <th class="ps-3">3</th>
-                  <td>Iconmonstr</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">4</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">5</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">6</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">7</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">8</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">9</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">10</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">11</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th class="ps-3">12</th>
-                  <td>WhatsApp Web</td>
-                  <td class="d-flex gap-3">
-                      <a class="btn btn-success"><img src="./icons/open.svg" alt="abrir"></a>
-                      <a class="btn btn-info"><img src="./icons/copy.svg" alt="copiar"></a>
-                      <a class="btn btn-danger"><img src="./icons/delete.svg" alt="eliminar"></a>
-                  </td>
-                </tr>
+                
               </tbody>
           </table>
         </div>
@@ -237,8 +186,6 @@
         <h5 class="text-secondary text-center">@LeoMarqz - 2021 </h5>
       </div>
     </footer>
-
-    <script src="./js/up.js"></script>
-    <script src="./js/index.js" type="module"></script>
+    <script src="./js/btn_up.js"></script>
 </body>
 </html>

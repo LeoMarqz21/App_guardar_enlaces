@@ -1,3 +1,39 @@
+<?php 
+session_start();
+include('./server/connectionDB.php');
+
+$connection = new ConnectionDB();
+
+if(isset($_SESSION['user_id'])){
+  header("location: ./links.php");
+}
+
+if($_POST){
+  if(isset($_POST['login'])){
+    $user = $_POST['l_usuario'];
+    $pass = $_POST['l_contrasena'];
+
+    if(strlen($user) >= 3){
+      if(strlen($pass) >= 4){
+        $connection->my_name = $user;
+        $connection->my_password = $pass;
+        if($connection->Login()){
+          $_SESSION['user_id'] = $connection->my_user_id;
+          header("Location: ./links.php");
+        }else{
+          echo "<script> alert('Usuario o contraseña erroneos </script>";
+        }
+      }else{
+        echo "<script> alert('la contraseña debe tener mas de 4 caracteres </script>";
+      }
+    }else{
+      echo "<script> alert('el nombre usuario no debe tener menos de 3 caracteres </script>";
+    }
+  }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,26 +48,25 @@
     <div class="container pt-4">
         <div class="row align-items-center">
             <div class="col-md-5 mx-auto">
-                <form class="border rounded-3 p-4 shadow-sm bg-white">
+                <form class="border rounded-3 p-4 shadow-sm bg-white" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
                     <h2 class="p-2 text-center fw-bold">Inicio Sesión</h2>
                     <div class="mb-3">
                       <label for="" class="fw-light">Usuario</label>
-                      <input type="text" class="form-control p-2" id="L_user"  autofocus autocomplete="off" required />
+                      <input type="text" class="form-control p-2" name="l_usuario"  autofocus autocomplete="off" required />
                     </div>
                     <div class="mb-4">
                       <label for="" class="fw-light">Contraseña</label>
-                      <input type="password" class="form-control p-2" id="L_pass" required />
+                      <input type="password" class="form-control p-2" name="l_contrasena" required />
                     </div>
                     <div class="mb-3 d-grid">
                         <button id="login" name="login" class="btn btn-primary fw-normal p-2 mt-4">Iniciar Sesión</button>
                       </div>
                     <div class="mb-3 d-flex justify-content-center">
-                        <span>Aun no te as registrado? </span> <a href="./register.html" class="text-decoration-none"> Registrate</a>
+                        <span>Aun no te as registrado? </span> <a href="./register.php" class="text-decoration-none"> Registrate</a>
                     </div>
                   </form>
             </div>
         </div>
     </div>
-    <script src="./js/login.js" type="module"></script>
 </body>
 </html>
